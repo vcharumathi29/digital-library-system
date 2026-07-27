@@ -2,7 +2,8 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<Book> books = new ArrayList<>();
+        // Create Library object
+        Library library = new Library();
 
         Book book1 = new Book(
                 101,
@@ -11,14 +12,11 @@ public class Main {
         );
         Book book2 = new Book(102,"Python Basics","Guido van rossum");
         Book book3 = new Book(103,"SQL","John");
-        books.add(book1);
-        books.add(book2);
-        books.add(book3);
+        library.add(book1);
+        library.add(book2);
+        library.add(book3);
         // Display all books
-        for(Book book:books){
-            book.displayBookDetails();
-            System.out.println();
-        }
+        library.displayAllBooks();
 
         // Get book details using getters
         System.out.println("Book ID: " + book1.getBookId());
