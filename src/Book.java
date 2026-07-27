@@ -18,4 +18,23 @@ public class Book {
         System.out.println("Author: " + author);
         System.out.println("Available: " + available);
     }
+    public int getBookId() {
+    return bookId;
+}
+
+public String getTitle() {
+    return title;
+}
+
+public String getAuthor() {
+    return author;
+}
+
+public boolean isAvailable() {
+    return available;
+}
+
+public void setAvailable(boolean available) {
+    this.available = available;
+}
 }
