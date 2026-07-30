@@ -1,1 +1,15 @@
+# Java compiled files
 *.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Build folders
+bin/
+out/
+target/
+
+# Environment / secrets
+.env
