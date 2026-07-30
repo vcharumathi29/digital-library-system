@@ -1,3 +1,6 @@
+import model.Book;
+import model.User;
+import service.Library;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -6,17 +9,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Create Library object
         Library library = new Library();
-
-        // Create Scanner object
         Scanner sc = new Scanner(System.in);
 
         int choice = 0;
 
         do {
 
-            // Display menu
             System.out.println();
             System.out.println("=========================================");
             System.out.println("        DIGITAL LIBRARY SYSTEM");
@@ -26,232 +25,169 @@ public class Main {
             System.out.println("3. Search Book");
             System.out.println("4. Issue Book");
             System.out.println("5. Return Book");
-            System.out.println("6. Add User");
-            System.out.println("7. View All Users");
-            System.out.println("8. Search User");
-            System.out.println("9. Exit");
+            System.out.println("6. Delete Book");
+            System.out.println("7. Add User");
+            System.out.println("8. View All Users");
+            System.out.println("9. Search User");
+            System.out.println("10. Delete User");
+            System.out.println("11. Exit");
             System.out.println("=========================================");
 
-            // Read menu choice safely
-            try {
+            System.out.print("Enter your choice: ");
+            choice = readInt(sc);
 
-                System.out.print("Enter your choice: ");
-                choice = sc.nextInt();
+            switch (choice) {
 
-                switch (choice) {
+                case 1:
 
-                    // Add Book
-                    case 1:
+                    System.out.print("Enter Book ID: ");
+                    int bookId = readPositiveInt(sc);
 
-                        try {
-                            System.out.print("Enter Book ID: ");
-                            int bookId = sc.nextInt();
+                    sc.nextLine();
 
-                            sc.nextLine();
+                    String title = readNonEmpty(
+                            sc,
+                            "Enter Book Title: "
+                    );
 
-                            System.out.print("Enter Book Title: ");
-                            String title = sc.nextLine();
+                    String author = readNonEmpty(
+                            sc,
+                            "Enter Book Author: "
+                    );
 
-                            System.out.print("Enter Book Author: ");
-                            String author = sc.nextLine();
+                    Book book = new Book(
+                            bookId,
+                            title,
+                            author
+                    );
 
-                            Book book = new Book(bookId, title, author);
+                    library.addBook(book);
 
-                            library.addBook(book);
+                    break;
 
-                            System.out.println("Book added successfully.");
 
-                        } catch (InputMismatchException e) {
+                case 2:
 
-                            System.out.println(
-                                    "Invalid input. Book ID must be a number."
-                            );
+                    System.out.println();
+                    System.out.println("===== ALL BOOKS =====");
 
-                            sc.nextLine();
-                        }
+                    library.displayAllBooks();
 
-                        break;
+                    break;
 
 
-                    // View All Books
-                    case 2:
+                case 3:
 
-                        System.out.println();
-                        System.out.println("===== ALL BOOKS =====");
+                    System.out.print("Enter Book ID to search: ");
+                    int searchBookId = readPositiveInt(sc);
 
-                        library.displayAllBooks();
+                    library.searchBook(searchBookId);
 
-                        break;
+                    break;
 
 
-                    // Search Book
-                    case 3:
+                case 4:
 
-                        try {
+                    System.out.print("Enter Book ID to issue: ");
+                    int issueBookId = readPositiveInt(sc);
 
-                            System.out.print("Enter Book ID to search: ");
-                            int searchBookId = sc.nextInt();
+                    library.issueBook(issueBookId);
 
-                            library.searchBook(searchBookId);
+                    break;
 
-                        } catch (InputMismatchException e) {
 
-                            System.out.println(
-                                    "Invalid input. Book ID must be a number."
-                            );
+                case 5:
 
-                            sc.nextLine();
-                        }
+                    System.out.print("Enter Book ID to return: ");
+                    int returnBookId = readPositiveInt(sc);
 
-                        break;
+                    library.returnBook(returnBookId);
 
+                    break;
 
-                    // Issue Book
-                    case 4:
 
-                        try {
+                case 6:
 
-                            System.out.print("Enter Book ID to issue: ");
-                            int issueBookId = sc.nextInt();
+                    System.out.print("Enter Book ID to delete: ");
+                    int deleteBookId = readPositiveInt(sc);
 
-                            library.issueBook(issueBookId);
+                    library.deleteBook(deleteBookId);
 
-                        } catch (InputMismatchException e) {
+                    break;
 
-                            System.out.println(
-                                    "Invalid input. Book ID must be a number."
-                            );
 
-                            sc.nextLine();
-                        }
+                case 7:
 
-                        break;
+                    System.out.print("Enter User ID: ");
+                    int userId = readPositiveInt(sc);
 
+                    sc.nextLine();
 
-                    // Return Book
-                    case 5:
+                    String name = readNonEmpty(
+                            sc,
+                            "Enter User Name: "
+                    );
 
-                        try {
+                    String email = readValidEmail(sc);
 
-                            System.out.print("Enter Book ID to return: ");
-                            int returnBookId = sc.nextInt();
+                    User user = new User(
+                            userId,
+                            name,
+                            email
+                    );
 
-                            library.returnBook(returnBookId);
+                    library.addUser(user);
 
-                        } catch (InputMismatchException e) {
+                    break;
 
-                            System.out.println(
-                                    "Invalid input. Book ID must be a number."
-                            );
 
-                            sc.nextLine();
-                        }
+                case 8:
 
-                        break;
+                    System.out.println();
+                    System.out.println("===== ALL USERS =====");
 
+                    library.displayAllUsers();
 
-                    // Add User
-                    case 6:
+                    break;
 
-                        try {
 
-                            System.out.print("Enter User ID: ");
-                            int userId = sc.nextInt();
+                case 9:
 
-                            sc.nextLine();
+                    System.out.print("Enter User ID to search: ");
+                    int searchUserId = readPositiveInt(sc);
 
-                            System.out.print("Enter User Name: ");
-                            String name = sc.nextLine();
+                    library.searchUser(searchUserId);
 
-                            System.out.print("Enter User Email: ");
-                            String email = sc.nextLine();
+                    break;
 
-                            User user = new User(
-                                    userId,
-                                    name,
-                                    email
-                            );
 
-                            library.addUser(user);
+                case 10:
 
-                            System.out.println(
-                                    "User added successfully."
-                            );
+                    System.out.print("Enter User ID to delete: ");
+                    int deleteUserId = readPositiveInt(sc);
 
-                        } catch (InputMismatchException e) {
+                    library.deleteUser(deleteUserId);
 
-                            System.out.println(
-                                    "Invalid input. User ID must be a number."
-                            );
+                    break;
 
-                            sc.nextLine();
-                        }
 
-                        break;
+                case 11:
 
+                    System.out.println(
+                            "Exiting Digital Library System..."
+                    );
 
-                    // View All Users
-                    case 7:
+                    break;
 
-                        System.out.println();
-                        System.out.println("===== ALL USERS =====");
 
-                        library.displayAllUsers();
+                default:
 
-                        break;
-
-
-                    // Search User
-                    case 8:
-
-                        try {
-
-                            System.out.print("Enter User ID to search: ");
-                            int searchUserId = sc.nextInt();
-
-                            library.searchUser(searchUserId);
-
-                        } catch (InputMismatchException e) {
-
-                            System.out.println(
-                                    "Invalid input. User ID must be a number."
-                            );
-
-                            sc.nextLine();
-                        }
-
-                        break;
-
-
-                    // Exit
-                    case 9:
-
-                        System.out.println(
-                                "Exiting Digital Library System..."
-                        );
-
-                        break;
-
-
-                    // Invalid menu option
-                    default:
-
-                        System.out.println(
-                                "Invalid choice. Please select 1 to 9."
-                        );
-                }
-
-            } catch (InputMismatchException e) {
-
-                System.out.println(
-                        "Invalid input. Please enter a number from 1 to 9."
-                );
-
-                // Clear invalid input
-                sc.nextLine();
+                    System.out.println(
+                            "Invalid choice. Please select 1 to 11."
+                    );
             }
 
-        } while (choice != 9);
+        } while (choice != 11);
 
         sc.close();
 
@@ -259,7 +195,106 @@ public class Main {
                 "Thank you for using Digital Library System!"
         );
     }
-   
-   
 
+
+    // Read integer safely
+    private static int readInt(Scanner sc) {
+
+        while (true) {
+
+            try {
+
+                return sc.nextInt();
+
+            } catch (InputMismatchException e) {
+
+                System.out.println(
+                        "Invalid input. Please enter a number."
+                );
+
+                sc.nextLine();
+            }
+        }
+    }
+
+
+    // Read positive integer
+    private static int readPositiveInt(Scanner sc) {
+
+        while (true) {
+
+            int number = readInt(sc);
+
+            if (number > 0) {
+
+                return number;
+
+            } else {
+
+                System.out.println(
+                        "ID must be greater than 0. Please try again."
+                );
+            }
+        }
+    }
+
+
+    // Read non-empty text
+    private static String readNonEmpty(
+            Scanner sc,
+            String message) {
+
+        while (true) {
+
+            System.out.print(message);
+
+            String input = sc.nextLine().trim();
+
+            if (!input.isEmpty()) {
+
+                return input;
+            }
+
+            System.out.println(
+                    "Input cannot be empty. Please try again."
+            );
+        }
+    }
+
+
+    // Read valid email
+    private static String readValidEmail(Scanner sc) {
+
+        while (true) {
+
+            System.out.print("Enter User Email: ");
+
+            String email = sc.nextLine().trim();
+
+            if (email.isEmpty()) {
+
+                System.out.println(
+                        "Email cannot be empty. Please try again."
+                );
+
+                continue;
+            }
+
+            if (email.contains("@")
+                    && email.contains(".")
+                    && !email.startsWith("@")
+                    && !email.endsWith("@")
+                    && !email.startsWith(".")
+                    && !email.endsWith(".")) {
+
+                return email;
+
+            } else {
+
+                System.out.println(
+                        "Invalid email format. Please try again."
+                );
+            }
+        }
+    }
 }
